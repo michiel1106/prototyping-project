@@ -1,0 +1,5 @@
+classTweaker  v1  official
+
+accessible field net/minecraft/client/model/geom/builders/CubeDeformation growX F
+accessible field net/minecraft/client/model/geom/builders/CubeDeformation growY F
+accessible field net/minecraft/client/model/geom/builders/CubeDeformation growZ F
