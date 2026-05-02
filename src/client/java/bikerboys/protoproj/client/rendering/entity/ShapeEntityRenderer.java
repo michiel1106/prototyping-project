@@ -3,6 +3,7 @@ package bikerboys.protoproj.client.rendering.entity;
 
 import bikerboys.protoproj.client.rendering.*;
 import bikerboys.protoproj.entity.custom.*;
+import bikerboys.protoproj.translation.*;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.resources.*;
@@ -29,16 +30,19 @@ public class ShapeEntityRenderer extends MobRenderer<ShapeEntity, ShapeEntityRen
     @Override
     public void extractRenderState(ShapeEntity entity, ShapeEntityRenderState state, float partialTicks) {
         super.extractRenderState(entity, state, partialTicks);
-        state.cubeListBuilder = new CubeListBuilder().addBox(
-                "small_cube",
-                -0.5F, 0.5F, -0.5F,
-                1, 1, 1,
-                CubeDeformation.NONE,
-                0, 0
-        );
 
-        // AABBGGRR
-        state.colorOffsets.addFirst(0xFF004F00);
+        CubeListBuilder cubeListBuilder = new CubeListBuilder();
+
+        for (int i = 0; i < entity.getCubes().size(); i++) {
+            TranslationCube cube = entity.getCubes().get(i);
+            int color = entity.getColor(i);
+
+
+            state.colorOffsets.add(color);
+        }
+
+        state.cubeListBuilder = cubeListBuilder;
+        state.colorOffsets = entity.getColors();
 
     }
 }

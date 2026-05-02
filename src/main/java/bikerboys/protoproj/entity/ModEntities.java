@@ -13,7 +13,7 @@ public class ModEntities {
 
     public static final EntityType<ShapeEntity> SHAPE_ENTITY = register(
             "shape_entity",
-            EntityType.Builder.of(ShapeEntity::new, MobCategory.MISC)
+            EntityType.Builder.<ShapeEntity>of((ShapeEntity::new), MobCategory.MISC)
                     .sized(0.75f, 0.75f)
     );
 

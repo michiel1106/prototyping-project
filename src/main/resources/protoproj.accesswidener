@@ -3,3 +3,8 @@ classTweaker  v1  official
 accessible field net/minecraft/client/model/geom/builders/CubeDeformation growX F
 accessible field net/minecraft/client/model/geom/builders/CubeDeformation growY F
 accessible field net/minecraft/client/model/geom/builders/CubeDeformation growZ F
+
+accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;
+accessible method net/minecraft/client/renderer/ViewArea getRenderSectionAt (Lnet/minecraft/core/BlockPos;)Lnet/minecraft/client/renderer/chunk/SectionRenderDispatcher$RenderSection;
+
+accessible field net/minecraft/client/renderer/chunk/SectionRenderDispatcher$RenderSection renderOrigin Lnet/minecraft/core/BlockPos$MutableBlockPos;

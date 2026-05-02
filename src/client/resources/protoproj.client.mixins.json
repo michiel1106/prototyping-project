@@ -1,14 +1,17 @@
 {
-	"required": true,
-	"package": "bikerboys.protoproj.client.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"ExampleClientMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
-	}
+  "required": true,
+  "package": "bikerboys.protoproj.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ExampleClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  },
+  "mixins": [
+    "ViewAreaInterfaceMixin"
+  ]
 }
