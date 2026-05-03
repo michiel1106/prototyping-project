@@ -67,7 +67,7 @@ public abstract class ExampleClientMixin {
 			SectionRenderDispatcher.RenderSection customSection = createCustomRenderSection();
 
 			if (customSection != null) {
-				// Add the section to fake visible sections
+
 				this.fakeVisibleSections.add(customSection);
 
 				this.sectionPositionOverrides.put(
@@ -144,8 +144,6 @@ public abstract class ExampleClientMixin {
 
 
 
-
-
 					BlockPos renderOffset = section.getRenderOrigin()
 							.offset(
 									PrototypingProjectClient.whereToRenderSection.getX(),
@@ -166,8 +164,9 @@ public abstract class ExampleClientMixin {
 								uboIndex = sectionInfos.size();
 
 								Matrix4f rotated = new Matrix4f();
+
+
 								modelViewMatrix.rotate(quat, rotated);
-								rotated.scale(-1.0f, 1.0f, 1.0f);
 
 
 

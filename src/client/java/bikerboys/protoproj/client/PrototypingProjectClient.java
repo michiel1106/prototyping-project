@@ -27,7 +27,16 @@ public class PrototypingProjectClient implements ClientModInitializer {
 					KeyMapping.Category.DEBUG // The category of the mapping.
 			));
 
+	KeyMapping applyMiscSettingsKey = KeyMappingHelper.registerKeyMapping(
+			new KeyMapping(
+					"key.protoproj.toggle_debug_two", // The translation key for the key mapping.
+					InputConstants.Type.KEYSYM, // // The type of the keybinding; KEYSYM for keyboard, MOUSE for mouse.
+					GLFW.GLFW_KEY_K, // The GLFW keycode of the key.
+					KeyMapping.Category.DEBUG // The category of the mapping.
+			));
+
 	public static boolean renderExtra = false;
+	public static boolean applyMiscSettings = false;
 
 	public static BlockPos positionToRender = BlockPos.ZERO;
 	public static BlockPos whereToRenderSection = BlockPos.ZERO;
@@ -42,6 +51,9 @@ public class PrototypingProjectClient implements ClientModInitializer {
 		ClientTickEvents.START_CLIENT_TICK.register((client) -> {
 			if (sendToChatKey.consumeClick()) {
 				renderExtra = !renderExtra;
+			}
+			if (applyMiscSettingsKey.consumeClick()) {
+				applyMiscSettings = !applyMiscSettings;
 			}
 		});
 
