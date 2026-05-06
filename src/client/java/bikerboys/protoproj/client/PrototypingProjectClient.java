@@ -1,8 +1,6 @@
 package bikerboys.protoproj.client;
 
 import bikerboys.protoproj.client.rendering.*;
-import bikerboys.protoproj.client.rendering.entity.*;
-import bikerboys.protoproj.entity.*;
 import com.mojang.blaze3d.platform.*;
 import com.mojang.brigadier.arguments.*;
 import net.fabricmc.api.ClientModInitializer;
@@ -76,7 +74,7 @@ public class PrototypingProjectClient implements ClientModInitializer {
 
 
 		ClientCommandRegistrationCallback.EVENT.register(((commandDispatcher, commandBuildContext) -> {
-			commandDispatcher.register(ClientCommands.literal("positiontorender")
+			commandDispatcher.register(ClientCommands.literal("chunkplacetorender")
 					.then(ClientCommands.argument("x", IntegerArgumentType.integer())
 							.then(ClientCommands.argument("y", IntegerArgumentType.integer())
 									.then(ClientCommands.argument("z", IntegerArgumentType.integer())
@@ -92,7 +90,7 @@ public class PrototypingProjectClient implements ClientModInitializer {
 		}));
 
 		ClientCommandRegistrationCallback.EVENT.register(((commandDispatcher, commandBuildContext) -> {
-			commandDispatcher.register(ClientCommands.literal("rotateoffset")
+			commandDispatcher.register(ClientCommands.literal("matrixoffset")
 					.then(ClientCommands.argument("x", IntegerArgumentType.integer())
 							.then(ClientCommands.argument("y", IntegerArgumentType.integer())
 									.then(ClientCommands.argument("z", IntegerArgumentType.integer())
@@ -124,7 +122,6 @@ public class PrototypingProjectClient implements ClientModInitializer {
 											})))));
 		}));
 
-		ModEntityModelLayers.registerModelLayers();
-		EntityRenderers.register(ModEntities.SHAPE_ENTITY, ShapeEntityRenderer::new);
+
 	}
 }

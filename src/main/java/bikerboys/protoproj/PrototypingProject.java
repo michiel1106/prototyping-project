@@ -1,6 +1,5 @@
 package bikerboys.protoproj;
 
-import bikerboys.protoproj.entity.*;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ public class PrototypingProject implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ModEntities.init();
 
 		LOGGER.info("Hello Fabric world!");
 	}
