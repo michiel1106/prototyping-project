@@ -62,54 +62,35 @@ public abstract class ExampleClientMixin {
 
 	@Shadow
 	private @Nullable GpuSampler chunkLayerSampler;
+	@Unique
+	private boolean sectionsGenerated = false;
 
-	@Inject(
-			method = "prepareChunkRenders",
-			at = @At("HEAD"),
-			cancellable = false
-	)
+	@Inject(method = "prepareChunkRenders", at = @At("HEAD"), cancellable = false)
 	private void injectCustomRenderSections(Matrix4fc modelViewMatrix, CallbackInfoReturnable<ChunkSectionsToRender> cir) {
-		fakeVisibleSections.clear();
-		sectionPositionOverrides.clear();
+		if (PrototypingProjectClient.renderExtra && !sectionsGenerated) {
+			fakeVisibleSections.clear();
 
-		if (PrototypingProjectClient.renderExtra) {
 			BlockPos centerPos = PrototypingProjectClient.positionToRender;
-
 			if (centerPos != null) {
-				int centerChunkX = centerPos.getX() >> 4; // Convert to chunk coordinates
+				int centerChunkX = centerPos.getX() >> 4;
 				int centerChunkZ = centerPos.getZ() >> 4;
 
-				// Iterate through all sections within 7 chunks radius
 				for (int chunkX = centerChunkX - 7; chunkX <= centerChunkX + 7; chunkX++) {
 					for (int chunkZ = centerChunkZ - 7; chunkZ <= centerChunkZ + 7; chunkZ++) {
-						for (int sectionY = 0; sectionY < 24; sectionY++) { // 24 sections top to bottom in modern MC
-							BlockPos sectionPos = new BlockPos(chunkX << 4, sectionY << 4, chunkZ << 4);
-							if (viewArea != null) {
-								SectionRenderDispatcher.RenderSection renderSection = viewArea.getRenderSectionAt(sectionPos);
-
-								if (renderSection != null) {
-									this.fakeVisibleSections.add(renderSection);
-
-									// Calculate relative position offset from center
-									BlockPos relativePos = new BlockPos(
-											sectionPos.getX() - centerPos.getX(),
-											sectionPos.getY() - centerPos.getY(),
-											sectionPos.getZ() - centerPos.getZ()
-									);
-
-									this.sectionPositionOverrides.put(
-											renderSection,
-											relativePos
-									);
-
-								} else {
-
-								}
-							}
+						List<SectionRenderDispatcher.RenderSection> sections =
+								FakeChunkRendering.getRenderSections(chunkX, chunkZ);
+						if (sections != null) {
+							fakeVisibleSections.addAll(sections);
 						}
 					}
 				}
 			}
+			sectionsGenerated = true;
+		}
+
+		if (!PrototypingProjectClient.renderExtra) {
+			sectionsGenerated = false; // Reset when disabled
+			fakeVisibleSections.clear();
 		}
 	}
 

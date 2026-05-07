@@ -48,7 +48,7 @@ public class CustomRenderRegionCache {
     private SectionCopy getSectionDataCopy(final Level level, final int sectionX, final int sectionY, final int sectionZ) {
         return this.sectionCopyCache.computeIfAbsent(SectionPos.asLong(sectionX, sectionY, sectionZ),
                 (Long2ObjectFunction<? extends SectionCopy>)(k -> {
-                    LevelChunk chunk = level.getChunk(sectionX, sectionZ);
+                    LevelChunk chunk = new LevelChunk(level, new ChunkPos(sectionX, sectionZ));
                     long chunkKey = ChunkPos.pack(sectionX, sectionZ);
 
                     // Get cached packet data if available

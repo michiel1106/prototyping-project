@@ -19,39 +19,36 @@ import java.util.concurrent.*;
 
 public class FakeChunkRendering {
     public static CustomRenderRegionCache cache = new CustomRenderRegionCache();
-
+    private static final Map<Long, CompiledSectionMesh> MESH_CACHE = new WeakHashMap<>();
 
     public static List<SectionRenderDispatcher.RenderSection> getRenderSections(int chunkX, int chunkZ) {
         Minecraft minecraft = Minecraft.getInstance();
-        LocalPlayer player = minecraft.player;
         ClientLevel level = minecraft.level;
         SectionRenderDispatcher sectionRenderDispatcher = minecraft.levelRenderer.getSectionRenderDispatcher();
-        if (sectionRenderDispatcher == null) return null;
-        if (level == null) {return null;}
 
-
-        Random rand = new Random();
-        int index = rand.nextInt();
-
-
-        int lowSectionY = level.getMinSectionY();  // usually -4
-        int maxSectionY = level.getMaxSectionY();  // usually 19
+        if (sectionRenderDispatcher == null || level == null) return null;
 
         List<SectionRenderDispatcher.RenderSection> sections = new ArrayList<>();
-
+        int lowSectionY = level.getMinSectionY();
+        int maxSectionY = level.getMaxSectionY();
 
         for (int sectionY = lowSectionY; sectionY < maxSectionY; sectionY++) {
-            // Convert section coordinates to the long format
             long sectionNode = SectionPos.asLong(chunkX, sectionY, chunkZ);
 
-            CompiledSectionMesh sectionMesh = getSectionMesh(chunkX, chunkZ, sectionY);
+            int finalSectionY = sectionY;
+            CompiledSectionMesh sectionMesh = MESH_CACHE.computeIfAbsent(sectionNode, key -> {
+                return getSectionMesh(chunkX, chunkZ, finalSectionY);
+            });
 
-            SectionRenderDispatcher.RenderSection section = sectionRenderDispatcher.new RenderSection(index, sectionNode);
             if (sectionMesh != null) {
+                SectionRenderDispatcher.RenderSection section =
+                        sectionRenderDispatcher.new RenderSection(
+                                Objects.hash(chunkX, sectionY, chunkZ),
+                                sectionNode
+                        );
                 section.sectionMesh.set(sectionMesh);
                 sections.add(section);
             }
-
         }
 
         return sections;
