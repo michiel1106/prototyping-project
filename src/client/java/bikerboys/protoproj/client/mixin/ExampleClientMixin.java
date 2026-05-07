@@ -103,7 +103,7 @@ public abstract class ExampleClientMixin {
 									);
 
 								} else {
-									System.out.println("[PrototypingProject] Null render section at: " + sectionPos);
+
 								}
 							}
 						}
@@ -195,15 +195,11 @@ public abstract class ExampleClientMixin {
 					Matrix4f rotated = new Matrix4f(modelViewMatrix);
 					rotated.translate(0, (float) (-2.0f * cameraPos.y) - offsetVec.y, 0);
 
-					FakeChunkRendering.modifyMatrix(rotated);
 
 
-					BlockPos renderOffset = section.getRenderOrigin()
-							.offset(
-									(int) offsetVec.x,
-									0,
-									(int) offsetVec.z
-							);
+					BlockPos anchor = PrototypingProjectClient.positionToRender; // the point that should become 0,0,0
+
+					BlockPos renderOffset = section.getRenderOrigin().subtract(anchor);
 
 
 					long now = Util.getMillis();
@@ -224,7 +220,7 @@ public abstract class ExampleClientMixin {
 										new DynamicUniforms.ChunkSectionInfo(
 												rotated,
 												renderOffset.getX(),
-                                                (renderOffset.getY()),
+                                                renderOffset.getY(),
 												renderOffset.getZ(),
 												section.getVisibility(now),
 												textureAtlasWidth,
